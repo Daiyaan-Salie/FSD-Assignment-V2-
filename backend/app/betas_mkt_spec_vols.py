@@ -4,16 +4,17 @@
 '''
 import numpy as np
 import pandas as pd
-from app.dataframes import df_BA_Beta_Output, df_Index_Constituents
+from app.dataframes import df_BA_Beta_Output
 from app.weights_and_ics import getICsAndWeights
 
 tbl_BA_Beta_Output = df_BA_Beta_Output
-tbl_Index_Constituents = df_Index_Constituents
+ICs = getICsAndWeights("2020-01-01","ALSI","tbl_Index_Constituents")
+ICs = ICs['Alpha']
 
 def getBetasMktAndSpecVols(rDate, ICs, tbl_BA_Beta_Output, mktIndexCode):
     '''
         What function does:
-            This function takes in 
+            
 
         Args:
             table (str): dbo.tbl BA Beta Output.
@@ -65,20 +66,3 @@ def getBetasMktAndSpecVols(rDate, ICs, tbl_BA_Beta_Output, mktIndexCode):
     Results.columns = ['Betas','specVols','mktVol']
 
     return Results
-
-
-Quarter_month = {1:3, 2:6, 3:9, 4:12}
-
-#inputs provided from user 
-rDate_year = '2019' #Get year from user
-rDate_quarter = 2 #get quarter from user
-rDate_month = str(Quarter_month[rDate_quarter])
-rDate = rDate_year +"-"+ rDate_month #Create single date value from supplied year and quarter
-
-IndexCode = "TOPI" 
-Output1 = getICsAndWeights(rDate,IndexCode,tbl_Index_Constituents)
-ICs = Output1['Alpha']
-mktIndexCode = "J203"
-
-Output2 = getBetasMktAndSpecVols(rDate,ICs,tbl_BA_Beta_Output,mktIndexCode)
-

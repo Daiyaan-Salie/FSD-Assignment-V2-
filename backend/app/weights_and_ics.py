@@ -6,15 +6,6 @@ import numpy as np
 import pandas as pd
 from app.dataframes import df_Index_Constituents
 
-from app import main
-from flask import request, render_template, Response
-from flask_cors import CORS
-import json
-
-app = main.app
-
-CORS(app, resources={r"/*":{'origins':"*"}})
-
 tbl_Index_Constituents = df_Index_Constituents
 
 def getICsAndWeights(rDate,IndexCode,tbl_Index_Constituents):
@@ -73,8 +64,8 @@ def getICsAndWeights(rDate,IndexCode,tbl_Index_Constituents):
     Gross_Market_Capitalisation = np.array(tbl_Index_Constituents_final.loc[:,"Gross Market Capitalisation"])
     Weigths = pd.DataFrame(Gross_Market_Capitalisation/np.sum(Gross_Market_Capitalisation))
     Gross_Market_Capitalisation = pd.DataFrame(Gross_Market_Capitalisation)
-    ICB_SubSector = pd.DataFrame(tbl_Index_Constituents_final.loc[:,"ICB Sub-Sector"]) #
-    Results = pd.concat([ Alpha.reset_index(drop=True),Weigths.reset_index(drop=True),Gross_Market_Capitalisation.reset_index(drop=True),ICB_SubSector.reset_index(drop=True)],axis=1)
+    ICB_SubSector = pd.DataFrame(tbl_Index_Constituents_final.loc[:,"ICB Sub-Sector"])
+    Results = pd.concat([Alpha.reset_index(drop=True), Weigths.reset_index(drop=True),Gross_Market_Capitalisation.reset_index(drop=True),ICB_SubSector.reset_index(drop=True)],axis=1)
     Results.columns = ['Alpha','Weights','Gross Market Capitalisation','ICB Sub-Sector']
 
     return Results
@@ -86,12 +77,5 @@ rDate_quarter = 2 #get quarter from user
 rDate_month = str(Quarter_month[rDate_quarter])
 rDate = rDate_year +"-"+ rDate_month #Create single date value from supplied year and quarter
 
-IndexCode = "TOPI" #Get input from user
+IndexCode = "ALSI" #Get input from user
 Output1 = getICsAndWeights(rDate,IndexCode,tbl_Index_Constituents)
-
-
-print(Output1)
-
-@app.route('/weights')
-def get_weights():
-    return(Output1.to_json(orient='records'))

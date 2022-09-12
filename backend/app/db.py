@@ -6,7 +6,7 @@ class DatabaseClient:
 
     def pyodbc_localhost(self):
         driver = '{ODBC Driver 17 for SQL Server}'
-        server = "localhost"
+        server = "DAIYAAN" #localhost
         database = "AIFMRM_ERS"
         cnxn_string = f"DRIVER={driver};SERVER={server};DATABASE={database};Trusted_Connection=yes;"
         try:

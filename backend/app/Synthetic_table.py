@@ -4,7 +4,7 @@ from sqlalchemy.engine import URL, create_engine, Inspector
 from app.dataframes import df_Index_Constituents, df_Industry_Classification_Benchmark, df_BA_Beta_Output
 from app.weights_and_ics import getICsAndWeights
 from app.calc_stats import CalcStats
-from app.betas_mkt_spec_vols import  getBetasMktAndSpecVols
+from app.betas_mkt_spec_vols import getBetasMktAndSpecVols
 from flask import jsonify, request
 
 

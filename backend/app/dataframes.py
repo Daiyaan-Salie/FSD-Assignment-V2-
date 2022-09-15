@@ -23,12 +23,4 @@ df_EOD_Equity_Data = frames_dict["tbl_EOD_Equity_Data"]
 df_EOD_Interest_Rate_Data = frames_dict["tbl_EOD_Interest_Rate_Data"]
 df_Beta_Output = frames_dict["tbl_Beta_Output"]
 '''
-# Set indexes and sort
-# df_BA_Beta_Output = df_BA_Beta_Output.set_index(["Instrument", "Index"])
-# df_Beta_Output = df_Beta_Output.set_index(["Instrument", "Index"])
-# df_EOD_Equity_Data = df_EOD_Equity_Data.set_index("Instrument")
-# df_FTSEJSE_Index_Series = df_FTSEJSE_Index_Series.set_index("Index Code")
-# df_Index_Constituents = df_Index_Constituents.set_index("Alpha")
-# df_Industry_Classification_Benchmark = df_Industry_Classification_Benchmark.set_index("Sub-Sector")
 
-#from app import indices, sectors, shares, Synthetic_table, weights_and_ics

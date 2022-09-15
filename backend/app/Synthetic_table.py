@@ -14,9 +14,8 @@ import json
 app = main.app
 
 CORS(app, resources={r"/*":{'origins':"*"}})
-Quarter_month = {1:3, 2:6, 3:9, 4:12}
 
-#Hard coded
+Quarter_month = {1:3, 2:6, 3:9, 4:12}
 Date_2_year = '2018'
 Date_2_quarter = 4
 
@@ -97,6 +96,13 @@ def Synthetic_Table(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,IndexC
                 print("Industry:", Industry_names[t])
 
     return df_Storage.to_json()
+
+
+
+#Synthetic_Output = Synthetic_Table(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,IndexCode_temp)
+#print(Synthetic_Output)
+
+
 
 
 #Synthetic_Output = SyntheticTable(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,IndexCode_temp)

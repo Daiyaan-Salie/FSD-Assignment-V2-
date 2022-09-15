@@ -61,8 +61,10 @@ rDate_quarter = 2 #get quarter from user
 rDate_month = str(Quarter_month[rDate_quarter])
 rDate = rDate_year +"-"+ rDate_month #Create single date value from supplied year and quarter
 
+print(rDate)
 IndexCode = "ALSI" #Get input from user
 dbo_tbl_Index_Constituents = "tbl_Index_Constituents" #Get input from user
 dbo_tbl_Index_Constituents = df_Index_Constituents
-Output1 = getICsAndWeights(rDate,IndexCode,tbl_Index_Constituents)
+Output1 = getICsAndWeights(rDate,IndexCode,df_Index_Constituents)
+print(Output1)
 '''

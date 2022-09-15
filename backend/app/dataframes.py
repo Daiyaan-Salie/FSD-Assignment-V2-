@@ -31,4 +31,4 @@ df_Beta_Output = frames_dict["tbl_Beta_Output"]
 # df_Index_Constituents = df_Index_Constituents.set_index("Alpha")
 # df_Industry_Classification_Benchmark = df_Industry_Classification_Benchmark.set_index("Sub-Sector")
 
-from app import indices, sectors, shares
+#from app import indices, sectors, shares, Synthetic_table, weights_and_ics

@@ -23,17 +23,18 @@ Date_2_quarter = 4
 
 IndexCode_temp = "TOPI"
 
-@app.route("/api/synthetictable", methods=["GET"])
+@app.route("/api/synthetictable/<share>/", methods=["GET"])
 
 def Synthetic_Table():#(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,IndexCode_temp):
     #Hardcoded 
-    Date_1_year = '2018'
-    Date_1_quarter = 1
+    query = request.args
+    Date_1_year = query.get("date_yr1")
+    Date_1_quarter = query.get("date_qrt1")
 
-    Date_2_year = '2018'
-    Date_2_quarter = 4
+    Date_2_year = query.get("date_yr2")
+    Date_2_quarter = query.get("date_qrt2")
 
-    IndexCode_temp = "TOPI"
+    IndexCode_temp = query.get("index_code")
     #---------------------
 
     Quarter_month = {1:3, 2:6, 3:9, 4:12}

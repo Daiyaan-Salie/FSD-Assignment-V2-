@@ -54,5 +54,5 @@ class Database_df:
 
 frames_dict = Database_df().create_dataframes(engine)
 
-from app import indices, interest_rates, quarters, sectors, shares
+from app import indices, interest_rates, quarters, sectors, shares, Synthetic_table
 

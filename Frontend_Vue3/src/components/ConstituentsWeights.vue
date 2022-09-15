@@ -4,7 +4,7 @@
     <!-- call the function -->
     <form @submit.prevent="updateStock">
     <input type="submit" value="Submit" class ="btn-primary">
-    <input type ="text" v-model= "stock" name ="stock" placeholder="Select Ticker" >
+    <input type ="text" v-model= "stock" name ="stock" placeholder="Select Year" >
   
 
     <div>
@@ -16,7 +16,7 @@
 
     </form >
        <!-- call the variable -->
-    <div class="row" v-if="loaded">
+   <div class="row" v-if="loaded">
        
     </div>
     
@@ -47,7 +47,7 @@
     
 
     <div class ='col-md-12'>
-      <div id="myPie"></div>
+      <div id="Weights per Industry"></div>
     </div>
 </div>
 </div>
@@ -71,7 +71,7 @@ import Plotly from 'plotly.js-dist';
 
           // initialise all variables
             return{
-                url: '',
+                url: 'http://127.0.0.1:5000/api/synthetictable',
                 url2: '',
                 url3: '',
                 allfinancials:[],
@@ -91,6 +91,17 @@ import Plotly from 'plotly.js-dist';
                 rec: [],
                 inv: [],
                 currAsst: [],
+                allIndustries: [],
+                Beta: [],
+                Industry1: [],
+                Industry2: [],
+                Industry3: [],
+                Industry4: [],
+                Industry5: [],
+                Industry6: [],
+                Industry7: [],
+                Industry8: [],
+                Industry9: [],
             }
         },
 
@@ -102,21 +113,25 @@ import Plotly from 'plotly.js-dist';
 // create a pie chart
 
 
-          getPie(stock){
+          getPie(){
 
 
-            this.url3 = 'http://127.0.0.1:5000/api/synthetictable'
-            console.log(this.url3) 
-                axios.get(this.url3)
+            // this.url3 = 'http://127.0.0.1:5000/api/synthetictable'
+            console.log(this.url) 
+                axios.get(this.url)
             .then (res => {
 
 
-              this.cash = res.data[0]['cashAndCashEquivalents']
-              this.inv= res.data[0]['shortTermInvestments']
-              this.csti= res.data[0]['cashAndShortTermInvestments']
-              this.rec= res.data[0]['netReceivables']
-              this.inv = res.data[0]['inventory']
-              this.currAsst = res.data[0]['otherCurrentAssets']
+              this.Industry1 = res.data[0]['Weight']
+              this.Industry2= res.data[1]['Weight']
+              this.Industry3= res.data[2]['Weight']
+              this.Industry4= res.data[3]['Weight']
+              this.Industry5 = res.data[4]['Weight']
+              this.Industry6 = res.data[5]['Weight']
+              this.Industry7 = res.data[6]['Weight']
+              this.Industry8 = res.data[7]['Weight']
+              this.Industry9 = res.data[8]['Weight']
+
 
               console.log(this.cash)
 
@@ -127,11 +142,11 @@ import Plotly from 'plotly.js-dist';
             .catch (err => console.log(err))
             
             var data = [{
-                values: [this.cash, this.inv,this.csti,this.rec,this.inv,this.currAsst],
-                labels: ['cashAndCashEquivalents','shortTermInvestments', 'cashAndShortTermInvestments', 'netReceivables', 'inventory', 'otherCurrentAssets'],
+                values: [this.Industry1,this.Industry2,this.Industry3,this.Industry4,this.Industry5,this.Industry6,this.Industry7,this.Industry8,this.Industry9],
+                labels: ['Oil & Gas','Basic Materials', 'Industrials', 'Consumer Goods', 'Health Care', 'Consumer Services','Telecommunications','Utilities','Financials','Technology'],
                 textinfo: "label+percent",
                 textposition: "outside",
-                title: "myPie",
+                title: 'Weights per Industry',
                 type: 'pie'
               }];
 
@@ -140,29 +155,29 @@ import Plotly from 'plotly.js-dist';
                 width: 500
               };
 
-              Plotly.newPlot('myPie', data, layout);
+              Plotly.newPlot('Weights per Industry', data, layout);
 
 
           },
 
             // Creating a scatter plot
 
-          getChart(stock){
-            this.url2 = 'https://financialmodelingprep.com/api/v3/historical-price-full/'+this.stock+'?timeseries=10&apikey=fc5921fae23cf964208ebb686edbc5a6' 
-            console.log(this.url2) 
-                axios.get(this.url2)
+          getChart(){
+            // this.url2 = 'http://127.0.0.1:5000/api/synthetictable'
+            console.log(this.url) 
+                axios.get(this.url)
                 .then( res => {
-              this.close=[]
+              this.Beta=[]
               this.x=[]  
               this.xi= ''
-              this.opentemp = res.data.historical
+              this.opentemp = res.data
               for (this.xi of this.opentemp){ 
                
-                this.close.push(this.xi.close)
+                this.Beta.push(this.xi.Beta)
             
                 this.x.push(this.xi.date)
               }
-              console.log(this.close)
+              console.log(this.Beta)
               console.log(this.x)
 
             })
@@ -170,7 +185,7 @@ import Plotly from 'plotly.js-dist';
             
             var trace1 = {
               x: this.x,
-              y: this.close,
+              y: this.Beta,
               mode: 'lines+markers',
               type: 'scatter',
               title: "Constituents",
@@ -197,25 +212,33 @@ import Plotly from 'plotly.js-dist';
             // Creating a table
 
             updateStock(){
-                this.url = 'http://127.0.0.1:5000/api/synthetictable'
+                // this.url = 'http://127.0.0.1:5000/api/synthetictable'
                
                 console.log(this.url)
                 axios.get(this.url)
                 .then( res => {
                     this.allIndustries = res.data,
-                    this.Industry = res.data[1];
+                    // this.Industry = res.data[1];
                     this.loaded = true,
                     // define column labels
-                    this.fields=['IS_Item', 'in_MillionsCY','in_MillionsPY']
+                    this.fields=['Date', 'Industry','Weight','Beta','SysVol','SpecVar']
                     // get variables from dictionary
                     this.item=[
-                      { in_MillionsCY: "a",in_MillionsPY : "q", IS_Item: "a"},
-                      {in_MillionsCY: this.allfinancials[0].date, in_MillionsPY : this.allfinancials[1].date, IS_Item: Object.keys(this.financials)[0]},
-                      {in_MillionsCY: this.formatNumber(this.allfinancials[0].revenue), in_MillionsPY : this.formatNumber(this.allfinancials[1].revenue), IS_Item: Object.keys(this.financials)[8]},
-                      {in_MillionsCY: this.formatNumber(this.allfinancials[0].costofRevenue), in_MillionsPY : this.formatNumber(this.allfinancials[1].costofRevenue), IS_Item: Object.keys(this.financials)[9]}
+                      // { Date: "a", Industry: "q", Weight: "a", Beta: "R", SysVol: "T", SpecVar: "G"},
+                      { Date: this.allIndustries[0].Date, Industry: this.allIndustries[0].Industry, Weight: this.allIndustries[0].Weight, Beta: this.allIndustries[0].Beta[0][0], SysVol: this.allIndustries[0].SysVol, SpecVar: this.allIndustries[0].SpecVar},
+                      { Date: this.allIndustries[1].Date, Industry: this.allIndustries[1].Industry, Weight: this.allIndustries[1].Weight, Beta: this.allIndustries[1].Beta[0][0], SysVol: this.allIndustries[1].SysVol, SpecVar: this.allIndustries[1].SpecVar},
+                      { Date: this.allIndustries[2].Date, Industry: this.allIndustries[2].Industry, Weight: this.allIndustries[2].Weight, Beta: this.allIndustries[2].Beta[0][0], SysVol: this.allIndustries[2].SysVol, SpecVar: this.allIndustries[2].SpecVar},
+                      { Date: this.allIndustries[3].Date, Industry: this.allIndustries[3].Industry, Weight: this.allIndustries[3].Weight, Beta: this.allIndustries[3].Beta[0][0], SysVol: this.allIndustries[3].SysVol, SpecVar: this.allIndustries[3].SpecVar},
+                      { Date: this.allIndustries[4].Date, Industry: this.allIndustries[4].Industry, Weight: this.allIndustries[4].Weight, Beta: this.allIndustries[4].Beta[0][0], SysVol: this.allIndustries[4].SysVol, SpecVar: this.allIndustries[4].SpecVar},
+                      { Date: this.allIndustries[5].Date, Industry: this.allIndustries[5].Industry, Weight: this.allIndustries[5].Weight, Beta: this.allIndustries[5].Beta[0][0], SysVol: this.allIndustries[5].SysVol, SpecVar: this.allIndustries[5].SpecVar},
+                      { Date: this.allIndustries[6].Date, Industry: this.allIndustries[6].Industry, Weight: this.allIndustries[6].Weight, Beta: this.allIndustries[6].Beta[0][0], SysVol: this.allIndustries[6].SysVol, SpecVar: this.allIndustries[6].SpecVar},
+                      { Date: this.allIndustries[7].Date, Industry: this.allIndustries[7].Industry, Weight: this.allIndustries[7].Weight, Beta: this.allIndustries[7].Beta[0][0], SysVol: this.allIndustries[7].SysVol, SpecVar: this.allIndustries[7].SpecVar},
+                      { Date: this.allIndustries[8].Date, Industry: this.allIndustries[8].Industry, Weight: this.allIndustries[8].Weight, Beta: this.allIndustries[8].Beta[0][0], SysVol: this.allIndustries[8].SysVol, SpecVar: this.allIndustries[8].SpecVar},
+                      { Date: this.allIndustries[9].Date, Industry: this.allIndustries[9].Industry, Weight: this.allIndustries[9].Weight, Beta: this.allIndustries[9].Beta[0][0], SysVol: this.allIndustries[9].SysVol, SpecVar: this.allIndustries[9].SpecVar}
+
                     ]
-                    this.getChart(this.stock)
-                    this.getPie(this.stock)
+                    this.getChart()
+                    this.getPie()
                 })
                 .catch (err => console.log(err))
             

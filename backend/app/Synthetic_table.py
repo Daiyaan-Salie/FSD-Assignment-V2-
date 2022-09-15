@@ -15,18 +15,27 @@ app = main.app
 
 CORS(app, resources={r"/*":{'origins':"*"}})
 
-Quarter_month = {1:3, 2:6, 3:9, 4:12}
-Date_2_year = '2018'
-Date_2_quarter = 4
-
 Date_1_year = '2018'
 Date_1_quarter = 1
 
+Date_2_year = '2018'
+Date_2_quarter = 4
+
 IndexCode_temp = "TOPI"
 
-
 @app.route("/api/synthetictable", methods=["GET"])
-def Synthetic_Table(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,IndexCode_temp):
+
+def Synthetic_Table():#(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,IndexCode_temp):
+    #Hardcoded 
+    Date_1_year = '2018'
+    Date_1_quarter = 1
+
+    Date_2_year = '2018'
+    Date_2_quarter = 4
+
+    IndexCode_temp = "TOPI"
+    #---------------------
+
     Quarter_month = {1:3, 2:6, 3:9, 4:12}
     Date_1_month = str(Quarter_month[Date_1_quarter])
     Date_2_month = str(Quarter_month[Date_2_quarter])
@@ -99,10 +108,3 @@ def Synthetic_Table(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,IndexC
 
 
 
-#Synthetic_Output = Synthetic_Table(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,IndexCode_temp)
-#print(Synthetic_Output)
-
-
-
-
-#Synthetic_Output = SyntheticTable(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,IndexCode_temp)

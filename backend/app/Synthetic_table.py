@@ -105,7 +105,7 @@ def Synthetic_Table():#(Date_1_year,Date_1_quarter,Date_2_year,Date_2_quarter,In
                 df_Storage = df_Storage.append({'Date': date_output, 'Industry': Industry_names[t], 'Weight': weight_output, 'Beta' : "     -", 'SysVol' : "     -", 'SpecVar' : "     -"}, ignore_index=True)
                 print("Industry:", Industry_names[t])
 
-    return df_Storage.to_json()
+    return (pd.DataFrame.transpose(df_Storage)).to_json()
 
 
 
